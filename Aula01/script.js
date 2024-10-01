@@ -1,3 +1,6 @@
 $(document).ready(function() {
-    alert("Teste");
+    $("form").on("submit", function(event) {
+        event.stopPropagation();
+        event.stopDefault();
+    });
 });

@@ -3,4 +3,8 @@ $(document).ready(function() {
         event.stopPropagation();
         event.stopDefault();
     });
+
+    $("input[name.cep]").on("change", function(event){
+        
+    })
 });

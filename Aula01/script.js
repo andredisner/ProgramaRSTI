@@ -19,7 +19,7 @@ $(document).ready(function() {
                         $("input[name=rua]").val(resposta.logradouro);
                         $("input[name=complemento]").val(resposta.complemento);
                         $("input[name=bairro]").val(resposta.bairro);
-                        $("input[name=estado]").val(resposta.estado);
+                        $("select[name=estado]").val(resposta.uf);
                         $("input[name=cidade]").val(resposta.localidade);
                         $("input[name=uf]").val(resposta.uf);
                         $("input[name=ibge]").val(resposta.ibge);

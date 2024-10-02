@@ -1,7 +1,7 @@
 $(document).ready(function() {
 
     $("input[name=cep]").mask("00000-000");
-
+    $("input[name=numero]").mask("#");
     $("form").on("submit", function(event) {
         event.stopPropagation();
         event.stopDefault();

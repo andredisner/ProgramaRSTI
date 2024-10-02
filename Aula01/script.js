@@ -15,9 +15,15 @@ $(document).ready(function() {
             $.ajax("https://viacep.com.br/ws/" + cep + "/json")
                 .done(function(data) {
                     let resposta = JSON.parse(data);
-                   if (resposta.erro) {}
-                    alert{}
-                    alert(data);
+                   if (!resposta.erro){
+                        $("input[name=rua]").val(resposta.logradouro);
+                        $("input[name=complemento]").val(resposta.complemento);
+                        $("input[name=bairro]").val(resposta.bairro);
+                        $("input[name=estado]").val(resposta.estado);
+                        $("input[name=cidade]").val(resposta.localidade);
+                        $("input[name=uf]").val(resposta.uf);
+                        $("input[name=ibge]").val(resposta.ibge);
+                   }
                 });
         }
     });

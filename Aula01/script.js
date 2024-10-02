@@ -1,6 +1,7 @@
 $(document).ready(function() {
 
     $("input[name=cep]").mask("00000-000");
+
     $("form").on("submit", function(event) {
         event.stopPropagation();
         event.stopDefault();
@@ -8,12 +9,16 @@ $(document).ready(function() {
 
     $("input[name=cep]").on("keyup", function(event) {
         let cep = $("input[name=cep]").val();
-        cep = cep.reaplace("-","");
+        cep = cep.replace("-","");
         if(cep.length == 8) {
-                $("input[name=cep]").removeClass("is-invalid");
-            alert(cep);
-        } else {
-                $("input[name=cep]").addClass("is-invalid");
+            $("input[name=cep]").removeClass("is-invalid");
+            $.ajax("https://viacep.com.br/ws/" + cep + "/json")
+                .done(function(data) {
+                    let resposta = JSON.parse(data);
+                   if (resposta.erro) {}
+                    alert{}
+                    alert(data);
+                });
         }
     });
 });

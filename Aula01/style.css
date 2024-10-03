@@ -1,0 +1,68 @@
+
+body {
+    background-color: #0e1e2b; /* Fundo escuro para um visual moderno */
+    color: #f0f0f0; /* Texto claro */
+    font-family: 'Roboto', sans-serif; /* Fonte mais moderna */
+    transition: background-color 0.5s;
+}
+
+.sidebar {
+    background-color: #1a2531; /* Azul escuro com toque de cinza */
+    color: #e0e0e0; /* Texto claro */
+    padding: 20px;
+    height: 100vh;
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
+    border-right: 2px solid #0073e6; /* Borda para dar destaque */
+}
+
+.form-container {
+    padding: 20px;
+    border-radius: 15px; /* Bordas mais arredondadas */
+    background: rgba(255, 255, 255, 0.1); /* Fundo semi-transparente */
+    backdrop-filter: blur(15px); /* Efeito de desfoque mais intenso */
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+}
+
+.form-control {
+    background-color: #2a374e; /* Azul escuro */
+    border: 1px solid #0073e6; /* Azul vibrante */
+    border-radius: 8px;
+    color: #f0f0f0; /* Texto claro */
+    transition: all 0.3s, box-shadow 0.2s;
+    padding: 10px;
+}
+
+.form-control:focus {
+    background-color: #3b4b67; /* Azul mais claro ao focar */
+    border-color: #00bfff; /* Azul brilhante ao focar */
+    box-shadow: 0 0 10px rgba(0, 191, 255, 0.5); /* Efeito de foco futurista */
+}
+
+.form-select {
+    background-color: #e2e8f3; /* Azul escuro */
+    border: 1px solid #0073e6; /* Azul vibrante */
+    border-radius: 8px;
+    color: #f0f0f0; /* Texto claro */
+    transition: all 0.3s, box-shadow 0.2s;
+    padding: 10px;
+}
+
+.btn-primary {
+    background-color: #0073e6; /* Azul vibrante */
+    border: none;
+    border-radius: 8px;
+    color: white;
+    padding: 10px 15px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+.btn-primary:hover {
+    background-color: #0056b3; /* Azul escuro ao passar o mouse */
+    transform: scale(1.05); /* Aumento sutil */
+}
+
+/* Adicionando efeitos de transição suaves */
+* {
+    transition: all 0.3s ease;
+}

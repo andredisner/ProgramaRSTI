@@ -1,80 +1,92 @@
-            $(document).ready(function() {
-                //variavel Global
-                let resposta ='';
-                // Aplicar máscaras de entrada
-                $("input[name=cep]").mask("00000-000");
-                $("input[name=numero]").mask("n",{
-                    translation: {
-                        'n':{
-                            pattern: /[0-9]/,
-                            recursive: true
-                        }
-                    }
-                });
-                    // Buscar estados e popular o select
-                    const urlEstados = 'https://servicodados.ibge.gov.br/api/v1/localidades/estados';
-                    $.getJSON(urlEstados, function(data) {
-                        data.forEach(function(estado){
-                            $('#estado').append(`<option value="${estado.sigla}">${estado.nome}</option>`);
-                        });
-                    });
-                // Prevenir o envio do formulário
-                $("form").on("submit", function(event) {
-                    event.Propagation();
-                    event.preventDefault();
-                });
-                // Lidar com a entrada do CEP e buscar dados de endereço
-                $("input[name=cep]").on("keyup", function(event) {
-                    let cep = $("input[name=cep]").val();
-                    cep = cep.replace("-", "");
-                    if (cep.length === 8) {
-                        $("input[name=cep]").removeClass("is-invalid");
-                        $.ajax("https://viacep.com.br/ws/" + cep + "/json")
-                            .done(function(data) {
-                                // Usar dados diretamente, pois já é JSON
-                                if (resposta.erro) {
-                                    $("input[name=cep]").addClass("is-invalid");
-                                } else {
-                                    $("input[name=rua]").val(data.logradouro);
-                                    //Desabilita o compo "Rua" caso oCEP retorne um nome de rua valido.
+$(document).ready(function() {
+    // Variável global "resposta" que armazena
+    // a resposta JSON da consulta do CEP
+    // digitado pelo usuário.
+    let resposta = '';
 
-                                if(resposta.logradouro !== "") {
-                                    $("input[name-rua]").prop("disable", )
-                                }
-                                    $("input[name=bairro]").val(data.bairro);
-                                    $("select[name=estado]").val(data.uf);
-                                    $("select[name=estado]").trigger("change");
-                                    $("input[name=complemento]").val(data.complemento);
-                                    $("select[name=cidade]").val(data.localidade);
-                                    $("input[name=uf]").val(data.uf);
-                                    $("input[name=ibge]").val(data.ibge);
-                                    // Opcional: lidar com o caso em que o CEP é inválido
-                                }
-                            })
-                            .fail(function() {
-                                // Lidar com erros de AJAX
-                                alert("Erro ao buscar o CEP. Tente novamente.");
-                            });
+    $("input[name=cep]").mask("00000-000");
+    $("input[name=numero]").mask("n",{
+        translation: {
+            'n':{
+                pattern: /[0-9]/,
+                recursive: true
+            }
+        }
+    });
+
+    const urlEstados = 'https://servicodados.ibge.gov.br/api/v1/localidades/estados?orderBy=nome';
+
+    // Carregar os estados na inicialização
+    $.getJSON(urlEstados, function(data) {
+        data.forEach(function(estado) {
+            $('#estado').append(`<option value="${estado.sigla}">${estado.nome}</option>`);
+            
+        });
+    });
+
+    $("form").on("submit", function(event){
+        event.stopPropagation();
+        event.preventDefault();
+    });
+    
+    $("input[name=cep]").on("keyup", function(event){
+        let cep = $("input[name=cep]").val();
+        cep = cep.replace("-", "");
+        if(cep.length == 8){
+            $("input[name=cep]").removeClass("is-invalid");
+            //alert(cep);
+            $.ajax("https://viacep.com.br/ws/"+ cep +"/json")
+            .done(function(data){
+                resposta = JSON.parse(data);
+                if(resposta.erro){
+                    $("input[name=cep]").addClass("is-invalid");
+                }else{
+                    $("input[name=rua]").val(resposta.logradouro);
+                    if(resposta.logradouro !== ""){
+                        $("input[name=rua]").prop("disabled", "disabled")
                     }
+                    $("input[name=bairro]").val(resposta.bairro);
+                    if(resposta.bairro !== ""){
+                        $("input[name=bairro]").prop("disabled", "disabled")
+                    }
+                    $("select[name=estado]").val(resposta.uf);
+                    $("select[name=estado]").trigger("change");
+                    $("select[name=estado]").prop("disabled", "disabled");
+                    $("select[name=cidade]").prop("disabled", "disabled");
+                }
+                
+            })
+            .fail(function(data){
+                resposta = { "erro": "true"}
+            })
+        } 
+    });
+
+    $('#estado').on('change', function() {
+        let estadoId = $(this).val(); // Pega o ID do estado selecionado
+
+        if (estadoId) {
+            const urlCidades = `https://servicodados.ibge.gov.br/api/v1/localidades/estados/${estadoId}/municipios`;
+
+            $.getJSON(urlCidades, function(data) {
+                $('#cidade').empty(); // Limpa o select de cidades
+                $('#cidade').append(`<option value="">Selecione a cidade</option>`); // Adiciona a opção padrão
+
+                data.sort(function(a, b) {
+                    return a.nome.localeCompare(b.nome);
                 });
-                    // Lidar com a mudança de estado para buscar Cidades
-                    $('#estado').on('change', function() {
-                        let estadoId = $(this).val();
-                        if (estadoId) {
-                            const urlCidades = `https://servicodados.ibge.gov.br/api/v1/localidades/estados/${estadoId}/municipios`;
-                            $.getJSON(urlCidades), function(data) {
-                                $('#cidade').empty();
-                                $('#cidade').append('<option value="">Selecione a Cidade</option>');
-                                data.sort(function(a, b) {
-                                    return a.nome.localeCompare(b.nome);
-                                });
-                                data.forEach(function(cidade) {
-                                    $('#cidade').append(`<option value="${cidade.nome}">${cidade.nome}</option>`);
-                                });
-                            $("select[name=cidade]").val(resposta.localidade);
-                        } else {
-                            $('#cidade').empty();
-                            $('#cidade').append('<option value="">Primeiro selecione o estado</option>');
-                        }
-                    });
+
+                data.forEach(function(cidade) {
+                    $('#cidade').append(`<option value="${cidade.nome}">${cidade.nome}</option>`);
                 });
+
+                // Popula o campo "Cidade" com a cidade que o CEP digitado
+                // pelo usuário pertence.
+                $("select[name=cidade]").val(resposta.localidade);
+            });
+        } else {
+            $('#cidade').empty(); // Limpa o select de cidades caso não haja estado selecionado
+            $('#cidade').append(`<option value="">Primeiro selecione o estado</option>`);
+        }
+    });
+}); 

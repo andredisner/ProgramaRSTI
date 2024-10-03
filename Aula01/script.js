@@ -3,7 +3,7 @@
         let resposta ='';
         // Aplicar máscaras de entrada
         $("input[name=cep]").mask("00000-000");
-        $("input[name=numero]").mask("#");
+        $("input[name=numero]").mask("n",{
             translation: {
                 'n':{
                     pattern: /[0-9]/,
@@ -73,5 +73,3 @@
                 }
             });
         });
-    });
-});

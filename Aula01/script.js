@@ -13,6 +13,9 @@ $(document).ready(function() {
             }
         }
     });
+
+    (document).ready(function() {
+
     $("input[name=telefone)").mask("(00) 00000-0000");
     $('input[name=telefone)').on('keyup',function(){
         let telefone = $("input[name=telefone)").val()

@@ -13,7 +13,21 @@ $(document).ready(function() {
             }
         }
     });
+    $("input[name=telefone)").mask("(00) 00000-0000");
+    $('input[name=telefone)').on('keyup',function(){
+        let telefone = $("input[name=telefone)").val()
+        ;// Remove todos os caracteres que não são números.
+        telefone = telefone.replace(/[\D]/g,'');
+    
+    if (telefone.length < 11) {
+        mascara = '(00) 0000-00000';
+    } else { 
+        mascara = '(00) 00000-0000';
+    }
+    
+    $("input[name=telefone]").mask(mascara);
 
+});
     const urlEstados = 'https://servicodados.ibge.gov.br/api/v1/localidades/estados?orderBy=nome';
 
     // Carregar os estados na inicialização

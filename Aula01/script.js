@@ -59,6 +59,15 @@ $(document).ready(function() {
             .fail(function(data){
                 resposta = { "erro": "true"}
             })
+        } else {
+            $("imput[name=rua]").prop("disabled", false);
+            $("imput[name=rua]").val("");
+            $("imput[name=bairro]").prop("disabled", false);
+            $("imput[name=bairro]").val("");
+            $("imput[name=cidade]").prop("disabled", false);
+            $("imput[name=cidade]").val("");
+            $("imput[name=estado]").prop("disabled", false);
+            $("imput[name=estado]").val("");
         } 
     });
 

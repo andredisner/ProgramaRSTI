@@ -1,10 +1,10 @@
 $(document).ready(function() {
-    $.getJSON("https://randomuser.me/api/?results=35&nat=br", function(data) {
+    $.getJSON("https://randomuser.me/api/?results=3500&nat=br", function(data) {
         $('table').dataTable( {
             "aaData": data.results,
             "bProcessing": true,
             "language": {
-                url: "https:cdn.datatables.net/plug-ins/2.1.8/i18n/pt-BR.json"
+                url: "https://cdn.datatables.net/plug-ins/2.1.8/i18n/pt-BR.json"
             },
             "columns": [
                 { data: null,

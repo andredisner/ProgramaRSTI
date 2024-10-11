@@ -1,5 +1,5 @@
 $(document).ready(function() {
-    $.getJSON("https://randomuser.me/api/?results=3500&nat=br", function(data) {
+    $.getJSON("https://randomuser.me/api/?results=350&nat=br", function(data) {
         $('table').dataTable( {
             "aaData": data.results,
             "bProcessing": true,

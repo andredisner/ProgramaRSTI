@@ -5,17 +5,25 @@ $(document).ready(function() {
             "bProcessing": true,
             "columns": [
                 { data: "gender" },
+                { data: "picture.thumbnail", 
+                    render: function (data) {
+                        return '<img src="' + data + '" class="avatar" width="48" height="48" onerror="loadImgAsBase64(this)" />';
+                    }
+                },
+                { data: "login.username" },
+                { data: "name.first" },
+                { data: "name.last" },
                 { data: "gender" },
-                { data: "gender" },
-                { data: "gender" },
-                { data: "gender" },
-                { data: "gender" },
-                { data: "gender" },
-                { data: "gender" },
-                { data: "gender" },
-                { data: "gender" },
-                { data: "gender" },
-                { data: "gender" }
+                { data: "email" },
+                { data: "phone" },
+                { data: null,
+                    render: function (data) {
+                        return data.location.street.name + ", " + data.location.street.number;
+                    }
+                },
+                { data: "location.city" },
+                { data: "location.state" },
+                { data: "location.country" }
             ],
             "initComplete": function() {
                 $('table tbody tr').each(function( index ) {
@@ -52,11 +60,11 @@ $(document).ready(function() {
     });
 });
 
-function loadImgAsBase64(url, callback) {
+function loadImgAsBase64(el) {
     let canvas = document.createElement('canvas');
     let img = document.createElement('img');
     img.setAttribute('crossorigin', 'anonymous');
-    img.src = 'https://corsproxy.io/?' + url;
+    img.src = 'https://corsproxy.io/?' + el.src;
     
     img.onload = () => {
         canvas.height = img.height;
@@ -65,6 +73,6 @@ function loadImgAsBase64(url, callback) {
         context.drawImage(img, 0, 0);
         let dataURL = canvas.toDataURL('image/png');
         canvas = null;
-        callback(dataURL);
+        el.src = dataURL;
     };
 }

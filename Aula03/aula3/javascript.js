@@ -3,6 +3,9 @@ $(document).ready(function() {
         $('table').dataTable( {
             "aaData": data.results,
             "bProcessing": true,
+            "language": {
+                url: "https:cdn.datatables.net/plug-ins/2.1.8/i18n/pt-BR.json"
+            },
             "columns": [
                 { data: null,
                     render: function(data, type, row, meta) {
